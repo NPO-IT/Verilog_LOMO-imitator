@@ -4,9 +4,15 @@ module LOMO_imitator (
 	output oCLK,		//brown wire, 127
 	output oSRL			//red wire, 126
 );
+wire rst, clk2;
 
-assign oMK = clk;
-assign oCLK = clk;
-assign oSRL = clk;
+globalReset aCLR ( .clk(clk), .rst(rst) );
+	defparam aCLR.clockFreq = 1;
+	defparam aCLR.delayInSec = 20;
+clkDividers clkDiv ( .reset(rst), .clk80(clk),.clk2(clk2) );
+
+assign oMK = clk2;
+assign oCLK = ~clk2;
+assign oSRL = ~clk;
 
 endmodule
