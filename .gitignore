@@ -1,0 +1,16 @@
+**/db/*
+**/simulation/*
+**/greybox_tmp/*
+**/incremental_db/*
+
+*.rpt
+*.qws
+*.v.bak
+*.kpt
+*.ddb
+*.summary
+
+/LOMO_imitator.done
+/LOMO_imitator.map.smsg
+/serv_req_info.txt
+/LOMO-imitator_description.txt
