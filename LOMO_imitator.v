@@ -11,8 +11,17 @@ globalReset aCLR ( .clk(clk), .rst(rst) );
 	defparam aCLR.delayInSec = 20;
 clkDividers clkDiv ( .reset(rst), .clk80(clk),.clk2(clk2) );
 
-assign oMK = clk2;
-assign oCLK = ~clk2;
-assign oSRL = ~clk;
+TheFrame former(
+	.clk(clk),
+	.sync(clk2),
+	.reset(rst),
+	.MK(oMK),
+	.CLK(oCLK),
+	.DAT(oSRL)
+);
+
+//assign oMK = clk2;
+//assign oCLK = ~clk2;
+//assign oSRL = ~clk;
 
 endmodule
