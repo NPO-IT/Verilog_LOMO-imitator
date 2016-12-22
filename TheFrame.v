@@ -9,7 +9,7 @@ module TheFrame (
 reg	[2:0]		syncReg;
 wire				syncFront;			
 always@(posedge clk) syncReg <= { syncReg[1:0],  sync };
-assign syncFront	=	(!syncReg[2] & syncReg[1]);
+assign	syncFront	=	(!syncReg[2] & syncReg[1]);
 
 // Common
 reg	[8:0]		frmNum;
@@ -32,34 +32,38 @@ reg	[7:0]		RM		=	8'd141;
 reg	[7:0]		POS	=	8'd151;
 reg	[7:0]		ARU	=	8'd161;
 // Structure
-wire	[15:0]	w00	=	{frmNum[8:0],	strNum[5:0],	1'b1	};
-wire	[15:0]	w01	=	{OK1[11:0],		corr[7:4]				};
-wire	[15:0]	w02	=	{OK2[11:0],		pel[7:4]					};
-wire	[15:0]	w03	=	{OK3[11:0],		XD[7:4]					};
-wire	[15:0]	w04	=	{VK1[11:0],		YD[7:4]					};
-wire	[15:0]	w05	=	{VK2[11:0],		RM[7:4]					};
-wire	[15:0]	w06	=	{VK3[11:0],		POS[7:4]					};
-wire	[15:0]	w07	=	{UF1[11:0],		ARU[7:4]					};
-wire	[15:0]	w08	=	{UF2[11:0],							4'd0	};
-wire	[15:0]	w09	=	{UF3[11:0],							4'd0	};
-wire	[15:0]	w10	=	{frmNum[8:0],	strNum[5:0],	1'b0	};
-wire	[15:0]	w11	=	{OK1[11:0],		corr[3:0]				};
-wire	[15:0]	w12	=	{OK2[11:0],		pel[3:0]					};
-wire	[15:0]	w13	=	{OK3[11:0],		XD[3:0]					};
-wire	[15:0]	w14	=	{VK1[11:0],		YD[3:0]					};
-wire	[15:0]	w15	=	{VK2[11:0],		RM[3:0]					};
-wire	[15:0]	w16	=	{VK3[11:0],		POS[3:0]					};
-wire	[15:0]	w17	=	{UF1[11:0],		ARU[3:0]					};
-wire	[15:0]	w18	=	{UF2[11:0],							4'd0	};
-wire	[15:0]	w19	=	{UF3[11:0],							4'd0	};
+wire	[15:0]	w[0:19];
+assign			w[0]	=	{frmNum[8:0],	strNum[5:0],	1'b1	};
+assign			w[1]	=	{OK1[11:0],		corr[7:4]				};
+assign			w[2]	=	{OK2[11:0],		pel[7:4]					};
+assign			w[3]	=	{OK3[11:0],		XD[7:4]					};
+assign			w[4]	=	{VK1[11:0],		YD[7:4]					};
+assign			w[5]	=	{VK2[11:0],		RM[7:4]					};
+assign			w[6]	=	{VK3[11:0],		POS[7:4]					};
+assign			w[7]	=	{UF1[11:0],		ARU[7:4]					};
+assign			w[8]	=	{UF2[11:0],							4'd0	};
+assign			w[9]	=	{UF3[11:0],							4'd0	};
+assign			w[10]	=	{frmNum[8:0],	strNum[5:0],	1'b0	};
+assign			w[11]	=	{OK1[11:0],		corr[3:0]				};
+assign			w[12]	=	{OK2[11:0],		pel[3:0]					};
+assign			w[13]	=	{OK3[11:0],		XD[3:0]					};
+assign			w[14]	=	{VK1[11:0],		YD[3:0]					};
+assign			w[15]	=	{VK2[11:0],		RM[3:0]					};
+assign			w[16]	=	{VK3[11:0],		POS[3:0]					};
+assign			w[17]	=	{UF1[11:0],		ARU[3:0]					};
+assign			w[18]	=	{UF2[11:0],							4'd0	};
+assign			w[19]	=	{UF3[11:0],							4'd0	};
 
 always@(posedge clk or negedge reset) begin
 	if (~reset) begin
 		frmNum <= 9'd0;
 		strNum <= 6'd0;
+		CLK <= 1'b0;
 	end else begin
-		if(syncFront)
-			frmNum <= frmNum + 1'b1;
+		if(syncFront)begin
+			CLK <= ~CLK;
+		end
+		frmNum <= frmNum + 1'b1;
 	end
 end
 endmodule
