@@ -60,22 +60,24 @@ reg	[4:0]		wrdCnt;
 
 always@(posedge clk or negedge reset) begin
 	if (~reset) begin
-		frmNum <= 9'd511;
-		strNum <= 6'd0;
+		frmNum <= 9'd1023;
+		strNum <= 6'd63;
 		CLK <= 1'b0;
-		bitCnt <= 4'b0;
-		wrdCnt <= 5'b0;
+		bitCnt <= 4'd0;
+		wrdCnt <= 5'd19;
 		sequence <= 1'b0;
 		DAT <= 1'b0;
+		MK <= 1'b0;
 	end else begin
 		if(syncFront)begin
 			CLK <= ~CLK;
 			sequence <= sequence + 1'b1;
 			case (sequence)
 				0: begin
+					MK <= 1'b0;
 					DAT <= w[wrdCnt][bitCnt];
-					bitCnt <= bitCnt + 1'b1;
-					if(bitCnt == 4'd15) begin
+					bitCnt <= bitCnt - 1'b1;
+					if(bitCnt == 4'd0) begin
 						wrdCnt <= wrdCnt + 1'b1;
 						if(wrdCnt == 5'd9) begin
 							strNum <= strNum + 1'b1;
@@ -84,6 +86,8 @@ always@(posedge clk or negedge reset) begin
 							strNum <= strNum + 1'b1;
 							if (strNum == 6'd63) begin
 								frmNum <= frmNum + 1'b1;
+								if (frmNum == 9'd511)
+									MK <= 1'b1;
 							end
 							wrdCnt <= 5'b0;
 						end
