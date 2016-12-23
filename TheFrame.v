@@ -54,16 +54,57 @@ assign			w[17]	=	{UF1[11:0],		ARU[3:0]					};
 assign			w[18]	=	{UF2[11:0],							4'd0	};
 assign			w[19]	=	{UF3[11:0],							4'd0	};
 
+reg	[3:0]		bitNum;
+reg	[4:0]		wrdNum;
+reg	[15:0]	thisWord;
+reg				sequence;
+
 always@(posedge clk or negedge reset) begin
 	if (~reset) begin
-		frmNum <= 9'd0;
-		strNum <= 6'd0;
+		frmNum <= 9'b111111111;
+		strNum <= 6'd63;
+		wrdNum <= 5'd20;
+		bitNum <= 4'b0;
+		sequence <= 1'b1;
+		thisWord <= w[0];//16'd0;
 		CLK <= 1'b0;
+		DAT <= 1'b0;
+		MK <= 1'b0;
 	end else begin
 		if(syncFront)begin
+			MK <= 1'b0;
 			CLK <= ~CLK;
-		end
-		frmNum <= frmNum + 1'b1;
+			sequence <= sequence + 1'b1;
+			case(sequence)
+				0: begin
+					if (bitNum == 4'b0) begin
+						wrdNum <= wrdNum + 1'b1;
+					end
+				end
+				1: begin
+					DAT <= thisWord[bitNum];
+					bitNum <= bitNum - 1'b1;
+					if (bitNum == 4'b0) begin
+						if (wrdNum == 20)
+							thisWord <= w[0];
+						else
+							thisWord <= w[wrdNum + 1'b1];
+						
+						//wrdNum <= wrdNum + 1'b1;
+						if (wrdNum == 5'd11) 
+							strNum <= strNum + 1'b1;
+						if (wrdNum == 5'd20) begin
+							strNum <= strNum + 1'b1;
+							wrdNum <= 5'd0;
+							if(strNum == 63) begin
+								frmNum <= frmNum + 1'b1;
+								MK <= 1'b1;
+							end
+						end
+					end
+				end
+			endcase
+		end		
 	end
 end
 endmodule
