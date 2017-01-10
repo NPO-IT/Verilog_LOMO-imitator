@@ -192,9 +192,9 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : 121       :        :                   :      
 VCCIO7                       : 122       : power  :                   : 2.5V    : 7         :                
 GND                          : 123       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : 124       :        :                   :         : 7         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 125       :        :                   :         : 7         :                
+oCLK                         : 125       : output : 2.5 V             :         : 7         : Y              
 oSRL                         : 126       : output : 2.5 V             :         : 7         : Y              
-oCLK                         : 127       : output : 2.5 V             :         : 7         : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : 127       :        :                   :         : 7         :                
 oMK                          : 128       : output : 2.5 V             :         : 8         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : 129       :        :                   :         : 8         :                
 VCCIO8                       : 130       : power  :                   : 2.5V    : 8         :                
