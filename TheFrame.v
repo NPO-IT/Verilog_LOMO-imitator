@@ -33,6 +33,8 @@ reg	[7:0]		POS	=	8'd151;
 reg	[7:0]		ARU	=	8'd161;
 // Structure
 wire	[15:0]	w[0:19];
+assign			w[0]	=	{16'b0101010101010101	};
+
 assign			w[10]	=	{frmNum[8:0],	strNum[5:0],	1'b1	};
 assign			w[11]	=	{OK1[11:0],		corr[7:4]				};
 assign			w[12]	=	{OK2[11:0],		pel[7:4]					};
@@ -43,7 +45,7 @@ assign			w[16]	=	{VK3[11:0],		POS[7:4]					};
 assign			w[17]	=	{UF1[11:0],		ARU[7:4]					};
 assign			w[18]	=	{UF2[11:0],							4'd0	};
 assign			w[19]	=	{UF3[11:0],							4'd0	};
-assign			w[0]	=	{frmNum[8:0],	strNum[5:0],	1'b0	};
+//assign			w[0]	=	{frmNum[8:0],	strNum[5:0],	1'b0	};
 assign			w[1]	=	{OK1[11:0],		corr[3:0]				};
 assign			w[2]	=	{OK2[11:0],		pel[3:0]					};
 assign			w[3]	=	{OK3[11:0],		XD[3:0]					};
@@ -78,7 +80,7 @@ always@(posedge clk or negedge reset) begin
 			case (sequence)
 				0: begin
 					MK <= 1'b0;
-					DAT <= w[wrdCnt][bitCnt];
+					DAT <= w[0][bitCnt];
 					bitCnt <= bitCnt - 1'b1;
 					if(bitCnt == 4'd15) begin
 						wrdCnt <= wrdCnt + 1'b1;
